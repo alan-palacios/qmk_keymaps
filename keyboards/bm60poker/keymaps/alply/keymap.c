@@ -26,50 +26,16 @@ _RGB,
 _GAMER
 };
 
-
+// bug: macros print all the instruction on MINGW terminal
 enum keycodes {
     ST_QWERTY,
     ST_GAMER = SAFE_RANGE,
     ST_DEV,
-    SLEEP
-};
-enum unicode_names {
-    TILD,
-    LPRN,
-    RPRN,
-    LBRC,
-    RBRC,
-    LCBR,
-    RCBR,
-    LT,
-    GT,
-    SCLN,
-    COLN,
-    CIRC,
-    SLSH,
-    BSLS,
-    PIPE,
-    GRAVE,
+    SLEEP,
+    CUSTOM_CIRC,
+    CUSTOM_PIPE
 };
 
-const uint32_t PROGMEM unicode_map[] = {
-    [TILD]  = 0x007E,  // ~
-    [LPRN] = 0x0028,  // (
-    [RPRN]  = 0x0029, // )
-    [LBRC] = 0x005B,  // [
-    [RBRC]  = 0x005D, // ]
-    [LCBR] = 0x007B,  // {
-    [RCBR]  = 0x007D, // }
-    [LT] = 0x003C,  // <
-    [GT]  = 0x003E, // >
-    [SCLN] = 0x003B,  // ;
-    [COLN]  = 0x003A, // :
-    [CIRC]  = 0x005E, // :
-    [SLSH]  = 0x002F, // :   
-    [BSLS]  = 0x005C, // :   
-    [PIPE]  = 0x007C, // :   
-    [GRAVE] = 0x0060, // 	`  
-};
 #define KC_SPCFN LT(_SPCFN, KC_SPC) // press for space, hold for function layer (aka spacefn)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -126,9 +92,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     └────┴────┴────┴────────────────────────┴────┴────┴────┴────┘*/
   [_DEV] = LAYOUT_60_ansi( /* Layer 2: Functions */
     RESET, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,
-    _______, X(TILD), X(CIRC), X(LPRN), X(RPRN), X(SLSH), X(BSLS), _______, _______, _______, _______, _______, _______, _______,
-    _______, X(SCLN), X(COLN), X(LCBR), X(RCBR), X(PIPE), _______, _______, _______, _______,  _______, _______,      _______    ,
-    _______, X(LT),   X(GT),   X(LBRC), X(RBRC), X(GRAVE), _______, _______, _______, _______, _______,           _______        ,
+    _______, ALGR(KC_RBRC), CUSTOM_CIRC, S(KC_8), S(KC_9), S(KC_7), ALGR(KC_MINS), _______, _______, _______, _______, _______, _______, _______,
+    _______, S(KC_COMM), S(KC_DOT), KC_QUOT, KC_NUHS, CUSTOM_PIPE, _______, _______, _______, _______,  _______, _______,      _______    ,
+    _______, KC_NUBS, S(KC_NUBS),   S(KC_QUOT), S(KC_NUHS), ALGR(KC_NUHS), _______, _______, _______, _______, _______,           _______        ,
     _______, _______, _______,                   _______,                                     _______, _______, _______, _______
   ),
    
@@ -194,6 +160,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             unregister_code(KC_SLEP);
             //register_code(KC_LGUI);
             //register_code(RGB_TOG);
+        }
+        return false;
+        break;
+      case CUSTOM_CIRC:
+        if (record->event.pressed) {
+          SEND_STRING(SS_LALT(SS_TAP(X_KP_0) SS_TAP(X_KP_0) SS_TAP(X_KP_9) SS_TAP(X_KP_4)));
+        }
+        return false;
+        break;
+      case CUSTOM_PIPE:
+        if (record->event.pressed) {
+          SEND_STRING(SS_LALT(SS_TAP(X_KP_0) SS_TAP(X_KP_1) SS_TAP(X_KP_2) SS_TAP(X_KP_4)));
         }
         return false;
         break;
