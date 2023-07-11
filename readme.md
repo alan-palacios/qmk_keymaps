@@ -4,10 +4,10 @@ Custom keymaps for mechanical keyboards running QMK Firmware
 ## Compile
 
 ```sh
-cp -r qmk_keymaps/keyboards/bm60poker/keymaps/alply-winc qmk_firmware/keyboards/bm60poker/keymaps
+cp -r qmk_keymaps/keyboards/air40/keymaps/alply qmk_firmware/keyboards/ymdk/ymd40/v2/keymaps
 cd qmk_firmware
-qmk compile -kb bm60poker -km alply-winc
+qmk compile -kb ymdk/ymd40/v2 -km alply
 ```
 
-This should result in an `alply-winc.hex` file being generated
+This should result in an `alply.hex` file being generated
 in the `qmk_firmware` root directory.

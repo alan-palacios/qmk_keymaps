@@ -26,7 +26,7 @@ _RGB,
 _GAMER
 };
 
-// bug: macros print all the instruction on MINGW terminal
+
 enum keycodes {
     ST_QWERTY,
     ST_GAMER = SAFE_RANGE,
