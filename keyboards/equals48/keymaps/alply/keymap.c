@@ -14,25 +14,23 @@ enum layers {
  _SYSTEM
 };
 
-// Tap Dance declarations
-enum {
-    TD_BSPC_ACUTE,
-};
-
-// Tap Dance definitions
-qk_tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Escape, twice for Caps Lock
-    [TD_BSPC_ACUTE] = ACTION_TAP_DANCE_DOUBLE(ES_ACUT, KC_BSPC),
-};
-
 enum custom_keycodes {
     HEART = SAFE_RANGE,
     COMMIT,
     ADD,
+    CLEAR_EEPROM,
 };
 
+float enter_sound[][2] = {
+    {NOTE_G5, 4}, // G5 note, 1/4th duration
+};
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+      case KC_ENTER:
+          if (record->event.pressed) {
+            PLAY_SONG(enter_sound);
+          }
+          break;
       case HEART:
           if (record->event.pressed) {
               SEND_STRING("<3 ");
@@ -46,6 +44,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       case COMMIT:
           if (record->event.pressed) {
               SEND_STRING("git commit -m \"");
+          }
+          break;
+      case CLEAR_EEPROM:
+          if (record->event.pressed) {
+              eeconfig_init();
           }
           break;
     }
@@ -123,8 +126,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
   [_SYSTEM] = LAYOUT_ortho_4x12( /* System functions */
-    RESET,   LGUI(KC_1),   LGUI(KC_2), LGUI(KC_3),		   KC_MPLY, ADD,     COMMIT,  _______, _______, _______, _______, KC_SLEP,
-    _______, LALT(KC_SPC), KC_PSCR,	   LCTL(LSFT(KC_M)), KC_VOLD, KC_VOLU, HEART,   _______, _______, _______, _______, _______,
+    QK_BOOT,   LGUI(KC_1),   LGUI(KC_2), LGUI(KC_3),		   KC_MPLY, ADD,     COMMIT,  _______, _______, _______, _______, KC_SLEP,
+    CLEAR_EEPROM, LALT(KC_SPC), KC_PSCR,	   LCTL(LSFT(KC_M)), KC_VOLD, KC_VOLU, HEART,   _______, _______, _______, _______, _______,
     _______, _______,	     _______,	   _______,			     _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______,	     _______,    _______, 		     _______, _______, _______, _______, _______, _______, _______, _______
   )

@@ -23,7 +23,7 @@
 #define NUM  MO(_NUM)
 #define SYSTEM MO(_SYSTEM)
 
-enum xd75_layers {
+enum layers {
  _QWERTY,
  _DEV,
  _NUM,

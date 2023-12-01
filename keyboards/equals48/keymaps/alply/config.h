@@ -1,0 +1,6 @@
+#pragma once
+#define UNICODE_SELECTED_MODES UC_WINC
+#ifdef AUDIO_ENABLE
+  #define ZELDA_PUZZLE Q__NOTE(_G5), Q__NOTE(_FS5), Q__NOTE(_F5), Q__NOTE(_CS5), Q__NOTE(_C5), Q__NOTE(_E5), Q__NOTE(_G5), HD_NOTE(_B5),
+  #define STARTUP_SONG SONG(ZELDA_PUZZLE)
+#endif
